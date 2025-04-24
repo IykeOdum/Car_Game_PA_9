@@ -21,6 +21,7 @@ void Background::draw(RenderWindow& window) {
 	window.draw(this->backgrounds[1]);
 }
 
+//resets the position of the backgrouds to where they were at the start
 void Background::restart() {
 	this->backgrounds[0].setPosition({ 0.f, 0.f });
 	this->backgrounds[1].setPosition({ 0.f, this->bgHeight });

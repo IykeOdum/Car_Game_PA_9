@@ -34,11 +34,10 @@ public:
 	void draw(RenderWindow& window) override;
 	void restart() override;
 private:
-	//Texture bgTexture;
-	vector<Sprite> backgrounds;
-	//Vector2u windowSize;
+	
+	vector<Sprite> backgrounds; //multiple backgrounds to create the illusion of movement
+
 
 	Vector2f bgScale; //scale to so that the vector fits the window properly
 	float bgHeight; //height of the scaled vector
-	//float scrollSpeed; //speed that the background is scrolling at
 };
