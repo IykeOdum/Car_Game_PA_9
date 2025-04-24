@@ -69,7 +69,7 @@ int main(void) {
 	Clock counter; //track the time
 
 	//main font to be used throughout the game
-	Font font("fonts/ByteBounce.ttf");
+	Font font("fonts/ByteBounce.ttf");  //font sourced from - https://www.1001fonts.com/bytebounce-font.html
 
 
 	//main game loop
@@ -139,10 +139,6 @@ int main(void) {
 
 			//clear all the previous elements
 			window.clear();
-
-
-			Font font;
-			font.openFromFile("fonts/ByteBounce.ttf"); //font sourced from - https://www.1001fonts.com/bytebounce-font.html
 
 			Text gameOver(font);
 			gameOver.setString("Game Over!\nScore: " + to_string(score) + "\nPress Space to restart");
