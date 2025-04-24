@@ -9,7 +9,10 @@ to a game or graphical application of our choice
 
 UPDATES NEEDED:
 
+
 -create main menu (button to play the game and button for customization)
+-score system (time based or number of obstacles dodged based)
+-create end screen (display score)
 -allow customization of car? (change color)
 
 
@@ -19,14 +22,12 @@ UPDATES COMPLETED:
 -class for background
 -scrolling background
 -moving car
--score system (time based or number of obstacles dodged based)
--create end screen (display score)
+
 
 */
 
 #include "background.hpp"
 #include "car.hpp"
-#include "aiplayer.hpp"
 
 int main(void) {
 
@@ -55,7 +56,6 @@ int main(void) {
 	Texture bgTexture("images/top down road 1.png"); //texture sourced from -- https://opengameart.org/content/2d-top-down-highway-background
 	Background background(bgTexture, windowSize, bgScale, scrollSpeed);
 
-
 	int score = 0; //game score
 	float scoreTimer = 0.0f; //timer
 	
@@ -65,9 +65,6 @@ int main(void) {
 	GameState gameState = GameState::Playing;
 
 	Clock counter; //track the time
-
-	Font font;
-	font.openFromFile("fonts/ByteBounce.ttf"); //font sourced from - https://www.1001fonts.com/bytebounce-font.html
 
 
 	//main game loop
@@ -104,26 +101,43 @@ int main(void) {
 			background.draw(window);
 			obstacles.draw(window);
 			playerCar.draw(window);
-			aiPlayer.draw(window);
+      aiPlayer.draw(window);
+
+			//Displays Score during the game
+			Text scoreTopRight;
+			scoreTopRight.setFont(font); // reuse the same font already loaded
+			scoreTopRight.setCharacterSize(24);
+			scoreTopRight.setFillColor(Color::White);
+			scoreTopRight.setString("Score: " + std::to_string(score));
+
+			// Align to top-right corner
+			FloatRect bounds = scoreTopRight.getLocalBounds();
+			scoreTopRight.setOrigin(bounds.width, 0); // anchor to the right edge
+			scoreTopRight.setPosition(static_cast<float>(window.getSize().x - 10), 10.f);
+
+			window.draw(scoreTopRight);
 
 			window.display();
 
 			//checks to see if the player hit obstacles
 			playerCar.checkCollision(obstacles, gameState);
 
-
 			// System to count the score over time
 			scoreTimer += changeSeconds;
 			if(scoreTimer >= 1.0f) {
 				score +=10;
 				scoreTimer= 0.0f;
-			}
+		}
 
 		}
 		else if (gameState == GameState::EndScreen) { //if the player collides into an obstacle
 
 			//clear all the previous elements
 			window.clear();
+
+
+			Font font;
+			font.openFromFile("fonts/ByteBounce.ttf"); //font sourced from - https://www.1001fonts.com/bytebounce-font.html
 
 			Text gameOver(font);
 			gameOver.setString("Game Over!\nScore: " + to_string(score) + "\nPress Space to restart");
@@ -141,11 +155,16 @@ int main(void) {
 			window.display();
 
 			// Displaying the Score at the end of the game
-			Text scoreText(font);
+			Font font;
+			font.loadfromfile("fonts/ByteBounce.tff);
+			Text scoreText;
+			scoreText.setFont(font);
 			scoreText.setCharacterSize(24);
 			scoreText.setFillColor(Color::White);
+                        
 			scoreText.setString("Score: " + to_string(score));
 			scoreText.setPosition({ 10.f,10.f });
+
 			window.draw(scoreText);
 
 			if (Keyboard::isKeyPressed(Keyboard::Key::Space)) { //R for restart
@@ -169,5 +188,4 @@ int main(void) {
 
 
 	return 0;
-
 }
