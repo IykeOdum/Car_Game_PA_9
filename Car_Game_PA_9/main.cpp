@@ -9,10 +9,7 @@ to a game or graphical application of our choice
 
 UPDATES NEEDED:
 
-
 -create main menu (button to play the game and button for customization)
--score system (time based or number of obstacles dodged based)
--create end screen (display score)
 -allow customization of car? (change color)
 
 
@@ -22,12 +19,14 @@ UPDATES COMPLETED:
 -class for background
 -scrolling background
 -moving car
-
+-score system (time based or number of obstacles dodged based)
+-create end screen (display score)
 
 */
 
 #include "background.hpp"
 #include "car.hpp"
+#include "aiplayer.hpp"
 
 int main(void) {
 
@@ -63,6 +62,9 @@ int main(void) {
 	GameState gameState = GameState::Playing;
 
 	Clock counter; //track the time
+
+	Font font;
+	font.openFromFile("fonts/ByteBounce.ttf"); //font sourced from - https://www.1001fonts.com/bytebounce-font.html
 
 
 	//main game loop
@@ -111,10 +113,6 @@ int main(void) {
 		else if (gameState == GameState::EndScreen) {
 
 			window.clear();
-
-
-			Font font;
-			font.openFromFile("fonts/ByteBounce.ttf"); //font sourced from - https://www.1001fonts.com/bytebounce-font.html
 
 			Text gameOver(font);
 			gameOver.setString("Game Over!\nScore: " + std::to_string(score) + "\nPress R to restart");

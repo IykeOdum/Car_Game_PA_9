@@ -5,11 +5,11 @@
 AIPlayer::AIPlayer(const Texture& carTexture, Vector2u windowSize) : 
     windowSize(windowSize), speed(4.0f), reactionDistance(300.0f),
     avoidanceDistance(150.0f), decisionCooldown(0.5f), currentCooldown(0.0f),
-    currentLane(1) {
+    currentLane(1), car(carTexture) {
     
-    car.setTexture(carTexture); // Set the car texture
-    car.setPosition(windowSize.x / 2 - car.getGlobalBounds().width / 2, 100); // Start at top-center
-    car.setScale(0.1f, 0.1f); // Scale down the car
+    //car.setTexture(carTexture); // Set the car texture
+    car.setPosition({ windowSize.x / 2 - car.getGlobalBounds().size.x / 2, 100 }); // Start at top-center
+    car.setScale({ 0.1f, 0.1f }); // Scale down the car
 }
 
 // Update method: updates the car's position based on obstacle positions and time elapsed
@@ -50,7 +50,7 @@ void AIPlayer::draw(RenderWindow& window) {
 Vector2f AIPlayer::getLanePosition(int lane) {
     float laneWidth = windowSize.x / 3; // Divide window into 3 lanes
     float x = laneWidth * (0.5f + lane); // Compute center of the specified lane
-    return Vector2f(x - car.getGlobalBounds().width / 2, car.getPosition().y); // Return position aligned to center
+    return Vector2f({ x - car.getGlobalBounds().size.x / 2, car.getPosition().y }); // Return position aligned to center
 }
 
 // Determines the best lane to avoid obstacles
@@ -65,7 +65,7 @@ int AIPlayer::chooseBestLane(const vector<Sprite>& obstacles) {
         }
         
         // Determine the lane index of the obstacle based on its X position
-        float obstacleX = obstacle.getPosition().x + obstacle.getGlobalBounds().width / 2;
+        float obstacleX = obstacle.getPosition().x + obstacle.getGlobalBounds().size.x / 2;
         int obstacleLane = static_cast<int>(obstacleX / (windowSize.x / 3));
         
         // If the obstacle is in a valid lane, mark it as unsafe
