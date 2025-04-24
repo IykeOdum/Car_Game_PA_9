@@ -57,7 +57,8 @@ int main(void) {
 	float scoreTimer = 0.0f;
 	Texture bgTexture("images/top down road 1.png"); //texture sourced from -- 
 	Background background(bgTexture, windowSize, bgScale, scrollSpeed);
-
+    // Create AI player
+    AIPlayer aiPlayer(carTexture, windowSize);
 
 	GameState gameState = GameState::Playing;
 
@@ -81,6 +82,7 @@ int main(void) {
 
 		}
 
+
 		if (gameState == GameState::Playing) {
 
 			playerCar.update();
@@ -92,9 +94,11 @@ int main(void) {
 			background.draw(window);
 			obstacles.draw(window);
 			playerCar.draw(window);
+      aiPlayer.draw(window);
 			window.display();
 
 			playerCar.checkCollision(obstacles, gameState);
+
 
 			// System to count the score over time
 			scoreTimer += changeSeconds;
@@ -150,4 +154,5 @@ int main(void) {
 
 
 	return 0;
+
 }
