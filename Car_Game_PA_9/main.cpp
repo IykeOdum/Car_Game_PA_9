@@ -165,7 +165,7 @@ int main(void) {
 
 			window.draw(scoreText);
 
-			if (Keyboard::isKeyPressed(Keyboard::Key::Space)) { //R for restart
+			if (Keyboard::isKeyPressed(Keyboard::Key::Space)) { //Space for restart
 				
 				gameState = GameState::Playing;
 
