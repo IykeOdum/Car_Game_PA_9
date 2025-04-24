@@ -28,6 +28,7 @@ UPDATES COMPLETED:
 
 #include "background.hpp"
 #include "car.hpp"
+#include "aiplayer.hpp"
 
 int main(void) {
 
@@ -62,9 +63,13 @@ int main(void) {
     // Create AI player
     AIPlayer aiPlayer(carTexture, windowSize);
 
+	//GameState -- tracks which action to perform based on the game state (Menu option will be added in the future)
 	GameState gameState = GameState::Playing;
 
 	Clock counter; //track the time
+
+	//main font to be used throughout the game
+	Font font("fonts/ByteBounce.ttf");
 
 
 	//main game loop
@@ -104,16 +109,16 @@ int main(void) {
       aiPlayer.draw(window);
 
 			//Displays Score during the game
-			Text scoreTopRight;
-			scoreTopRight.setFont(font); // reuse the same font already loaded
+			Text scoreTopRight(font);
+	 // reuse the same font already loaded
 			scoreTopRight.setCharacterSize(24);
 			scoreTopRight.setFillColor(Color::White);
 			scoreTopRight.setString("Score: " + std::to_string(score));
 
 			// Align to top-right corner
 			FloatRect bounds = scoreTopRight.getLocalBounds();
-			scoreTopRight.setOrigin(bounds.width, 0); // anchor to the right edge
-			scoreTopRight.setPosition(static_cast<float>(window.getSize().x - 10), 10.f);
+			scoreTopRight.setOrigin({ bounds.size.x, 0 }); // anchor to the right edge
+			scoreTopRight.setPosition({ static_cast<float>(window.getSize().x - 10), 10.f });
 
 			window.draw(scoreTopRight);
 
@@ -155,10 +160,7 @@ int main(void) {
 			window.display();
 
 			// Displaying the Score at the end of the game
-			Font font;
-			font.loadfromfile("fonts/ByteBounce.tff);
-			Text scoreText;
-			scoreText.setFont(font);
+			Text scoreText(font);
 			scoreText.setCharacterSize(24);
 			scoreText.setFillColor(Color::White);
                         
@@ -176,6 +178,7 @@ int main(void) {
 				playerCar.restart();
 				background.restart();
 				obstacles.restart();
+				score = 0;
 				
 			}
 
