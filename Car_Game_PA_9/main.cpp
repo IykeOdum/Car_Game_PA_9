@@ -9,10 +9,7 @@ to a game or graphical application of our choice
 
 UPDATES NEEDED:
 
-
 -create main menu (button to play the game and button for customization)
--score system (time based or number of obstacles dodged based)
--create end screen (display score)
 -allow customization of car? (change color)
 
 
@@ -22,6 +19,8 @@ UPDATES COMPLETED:
 -class for background
 -scrolling background
 -moving car
+-score system (time based or number of obstacles dodged based)
+-create end screen (display score)
 
 
 */
