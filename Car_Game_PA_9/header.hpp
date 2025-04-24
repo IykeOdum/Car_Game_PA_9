@@ -27,6 +27,7 @@ using std::cerr;
 using std::endl;
 using std::srand; //using for randomness in the obstacles
 using std::time;  //using for randomness in the obstacles
+using std::to_string;
 using std::string;
 using std::optional;
 using std::vector;

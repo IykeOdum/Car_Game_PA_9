@@ -8,7 +8,7 @@ ObstacleManager::ObstacleManager(Texture &newTexture, Vector2u newWindowSize, fl
 	this->windowSize = newWindowSize;
 	this->spawnInterval = newSpawnInterval;
 	this->speed = newSpeed;
-	this->lastSpawnTime = 0.f;
+	this->lastSpawnTime = 0.f; 
 }
 
 //update the screen
@@ -45,6 +45,7 @@ void ObstacleManager::draw(RenderWindow& window) {
 
 void ObstacleManager::restart() {
 
+	//deletes all the sprites in the vector
 	this->obstacles.clear();
 
 }

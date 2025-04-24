@@ -47,17 +47,20 @@ int main(void) {
 
 	
 	Texture carTexture("images/car.png"); //texture sourced from -- https://www.youtube.com/watch?v=YzhhVHb0WVY
-	float carSpeed = 5.0f;
+	float carSpeed = 5.0f; //cars speed
 	Car playerCar(carTexture, windowSize, carSpeed);
 
 
-	Vector2f bgScale(2.0f, 4.0f);
-	float scrollSpeed = 4.0f;
-	int score = 0;
-	float scoreTimer = 0.0f;
-	Texture bgTexture("images/top down road 1.png"); //texture sourced from -- 
+	Vector2f bgScale(2.0f, 4.0f); //scaling the background to fit the window
+	float scrollSpeed = 4.0f; //speed that the background scrolls at
+	Texture bgTexture("images/top down road 1.png"); //texture sourced from -- https://opengameart.org/content/2d-top-down-highway-background
 	Background background(bgTexture, windowSize, bgScale, scrollSpeed);
 
+	int score = 0; //game score
+	float scoreTimer = 0.0f; //timer
+	
+    // Create AI player
+    AIPlayer aiPlayer(carTexture, windowSize);
 
 	GameState gameState = GameState::Playing;
 
@@ -83,15 +86,22 @@ int main(void) {
 
 		if (gameState == GameState::Playing) {
 
+			/* Update function: The update functions is responsible for moving all of the objects every frame
+			Note: obstacle class doesnt inherit from the object manager which is why it is able to take a 
+			parameter of time. This can and will be fixed in the future for more dynamic gameplay
+			*/
 			playerCar.update();
 			background.update();
 			obstacles.update(changeSeconds);
 
-			//drawing all of the elements onto the window
+			
 			window.clear();
+
+			/*Draw function: This functions is responisble for drawing all of the elements on the screen each frame */
 			background.draw(window);
 			obstacles.draw(window);
 			playerCar.draw(window);
+      aiPlayer.draw(window);
 
 			//Displays Score during the game
 			Text scoreTopRight;
@@ -107,9 +117,9 @@ int main(void) {
 
 			window.draw(scoreTopRight);
 
-			
 			window.display();
 
+			//checks to see if the player hit obstacles
 			playerCar.checkCollision(obstacles, gameState);
 
 			// System to count the score over time
@@ -120,8 +130,9 @@ int main(void) {
 		}
 
 		}
-		else if (gameState == GameState::EndScreen) {
+		else if (gameState == GameState::EndScreen) { //if the player collides into an obstacle
 
+			//clear all the previous elements
 			window.clear();
 
 
@@ -129,17 +140,20 @@ int main(void) {
 			font.openFromFile("fonts/ByteBounce.ttf"); //font sourced from - https://www.1001fonts.com/bytebounce-font.html
 
 			Text gameOver(font);
-			gameOver.setString("Game Over!\nScore: " + std::to_string(score) + "\nPress R to restart");
+			gameOver.setString("Game Over!\nScore: " + to_string(score) + "\nPress Space to restart");
 			gameOver.setCharacterSize(40);
 			gameOver.setFillColor(Color::White);
 
-			FloatRect textBounds = gameOver.getLocalBounds();
-			gameOver.setOrigin({ textBounds.size.x / 2, textBounds.size.y / 2 });
+			FloatRect textBounds = gameOver.getLocalBounds(); 
+			gameOver.setOrigin({ textBounds.size.x / 2, textBounds.size.y / 2 }); 
+
+			//game over text set at middle of the screen
 			gameOver.setPosition({ static_cast<float>(window.getSize().x / 2.f), static_cast<float>(window.getSize().y / 2.f) });
 
 
 			window.draw(gameOver);
 			window.display();
+
 			// Displaying the Score at the end of the game
 			Font font;
 			font.loadfromfile("fonts/ByteBounce.tff);
@@ -147,13 +161,18 @@ int main(void) {
 			scoreText.setFont(font);
 			scoreText.setCharacterSize(24);
 			scoreText.setFillColor(Color::White);
-			scoreText.setString("Score: " + std::to_string(score));
-			scoreText.setPosition(10.f,10.f);
+                        
+			scoreText.setString("Score: " + to_string(score));
+			scoreText.setPosition({ 10.f,10.f });
+
 			window.draw(scoreText);
 
-			if (Keyboard::isKeyPressed(Keyboard::Key::R)) {
+			if (Keyboard::isKeyPressed(Keyboard::Key::Space)) { //R for restart
 				
 				gameState = GameState::Playing;
+
+				/* Restart Function: This function is reponsible for clearing/reseting 
+				all of the elements on the screen */
 				playerCar.restart();
 				background.restart();
 				obstacles.restart();
