@@ -101,7 +101,7 @@ int main(void) {
 			if(scoreTimer >= 1.0f) {
 				score +=10;
 				scoreTimer= 0.0f;
-		}
+			}
 
 		}
 		else if (gameState == GameState::EndScreen) {
@@ -125,14 +125,11 @@ int main(void) {
 			window.draw(gameOver);
 			window.display();
 			// Displaying the Score at the end of the game
-			Font font;
-			font.loadfromfile("fonts/ByteBounce.tff);
-			Text scoreText;
-			scoreText.setFont(font);
+			Text scoreText(font);
 			scoreText.setCharacterSize(24);
 			scoreText.setFillColor(Color::White);
 			scoreText.setString("Score: " + std::to_string(score));
-			scoreText.setPosition(10.f,10.f);
+			scoreText.setPosition({ 10.f,10.f });
 			window.draw(scoreText);
 
 			if (Keyboard::isKeyPressed(Keyboard::Key::R)) {
